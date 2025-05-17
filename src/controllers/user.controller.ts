@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { logger } from "../config/logger.config";
-import { createUserService } from "../services/user.service";
-import { BadRequestError, InternalServerError } from "../utils/errors/app.error";
+import { createUserService, signInService } from "../services/user.service";
+import { BadRequestError, InternalServerError, NotFoundError, UnauthorizedError } from "../utils/errors/app.error";
 
 
 export const signUpHandler = async (req: Request, res: Response, next: NextFunction) => {
@@ -33,3 +33,34 @@ export const signUpHandler = async (req: Request, res: Response, next: NextFunct
         };
     }
 }
+
+export const signInHandler = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const body = req.body;
+        const token = await signInService(body);
+        res.status(StatusCodes.CREATED).json({
+            message: "Token created successfully",
+            success: true,
+            data: {
+                token: token
+            }
+        });
+
+    } catch (error) {
+        if (error instanceof UnauthorizedError) {
+            res.status(error.statusCode).json({
+                message: error.message,
+                success: false,
+                data: {}
+            });
+        }
+        if (error instanceof NotFoundError) {
+            res.status(error.statusCode).json({
+                message: error.message,
+                success: false,
+                data: {}
+            });
+        }
+    }
+}   
+
