@@ -16,10 +16,6 @@ export const createUserSchema = z.object({
     password: z.string({
         required_error: "Password is required",
     }).regex(strongPasswordRegex, "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character"),
-    role: z.enum(["admin", "user"], {
-        required_error: "Role is required",
-        invalid_type_error: "Role must be either 'admin' | 'user'",
-    })
 });
 
 export const updateUserSchema = z.object({
@@ -32,8 +28,4 @@ export const updateUserSchema = z.object({
     password: z.string({
         required_error: "Password is required",
     }).regex(strongPasswordRegex, "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character"),
-    role: z.enum(["admin", "user"], {
-        required_error: "Role is required",
-        invalid_type_error: "Role must be either 'admin' | 'user'",
-    })
 }).partial();

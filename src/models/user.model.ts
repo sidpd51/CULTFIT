@@ -18,7 +18,8 @@ import { serverConfig } from '../config';
 @Table({
     tableName: 'users',
     timestamps: true,
-    paranoid: true
+    paranoid: true,
+    underscored: true,
 })
 export class User extends Model {
 
@@ -38,7 +39,7 @@ export class User extends Model {
             is: /^\+\d+$/i, // Ensures phone number starts with +
         },
     })
-    phone_number!: string;
+    phoneNumber!: string;
 
     @AllowNull(false)
     @Column(DataType.STRING)
@@ -46,27 +47,27 @@ export class User extends Model {
 
     @Default(0)
     @Column(DataType.INTEGER)
-    strike_count!: number;
+    strikeCount!: number;
 
     @Default(0)
     @Column(DataType.INTEGER)
-    no_show_count!: number;
+    noShowCount!: number;
 
     @AllowNull
     @Column(DataType.DATE)
-    banned_until!: Date | null;
+    bannedUntil!: Date | null;
 
     @CreatedAt
     @Column({ field: 'created_at' })
-    created_at!: Date;
+    createdAt!: Date;
 
     @UpdatedAt
     @Column({ field: 'updated_at' })
-    updated_at!: Date;
+    updatedAt!: Date;
 
     @DeletedAt
     @Column({ field: 'deleted_at' })
-    deleted_at!: Date;
+    deletedAt!: Date;
 
     @BeforeCreate
     static async hashPassword(user: User) {
