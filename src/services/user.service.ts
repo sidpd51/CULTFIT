@@ -2,7 +2,7 @@ import { createUserDto, signInDto } from "../dto/user.dto";
 import { createUser, getUserByEmail } from "../repositories/user.repository";
 import bcrypt from 'bcrypt';
 import { InternalServerError, UnauthorizedError } from "../utils/errors/app.error";
-import jwt from 'jsonwebtoken';
+import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 import { serverConfig } from "../config";
 
 export const createUserService = async (user: createUserDto) => {
@@ -45,5 +45,19 @@ export const signInService = async (payload: signInDto) => {
         }
     } catch (error) {
         throw error;
+    }
+}
+
+export const verifyToken = async (token: string | undefined) => {
+    try {
+        if (!token) {
+            throw new UnauthorizedError("Missing auth token");
+        }
+        const response = jwt.verify(token, serverConfig.JWT_KEY)
+        return response;
+    } catch (error) {
+        if (error instanceof JsonWebTokenError) {
+            throw new UnauthorizedError(error.message);
+        }
     }
 }
