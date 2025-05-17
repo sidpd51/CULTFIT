@@ -1,0 +1,18 @@
+export type createUserDto = {
+    name: string;
+    email: string;
+    phone_number: string;
+    password: string;
+};
+
+export type updateUserDto = {
+    name?: string;
+    email?: string;
+    phoneNumber?: string;
+    password?: string;
+}
+
+export type signInDto = {
+    email: string;
+    password: string;
+}

@@ -10,7 +10,8 @@ const sequelize = new Sequelize({
     username: dbConfig.USERNAME,
     password: dbConfig.PASSWORD,
     database: dbConfig.DATABASE,
-    models: [User, Role, UserRole]
+    models: [User, Role, UserRole],
+    logging: false
 });
 
 export default sequelize;

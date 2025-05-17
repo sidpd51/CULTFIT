@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 type ServerConfigType = {
     PORT: number;
     SALT: number;
+    JWT_KEY: string;
 }
 
 type DbConfigType = {
@@ -20,7 +21,8 @@ loadEnv();
 
 export const serverConfig: ServerConfigType = {
     PORT: Number(process.env.PORT) || 3000,
-    SALT: Number(process.env.SALT) || 10
+    SALT: Number(process.env.SALT) || 10,
+    JWT_KEY: process.env.JWT_KEY || 'secret'
 };
 
 export const dbConfig: DbConfigType = {

@@ -20,7 +20,7 @@ import { serverConfig } from '../config';
     timestamps: true,
     paranoid: true
 })
-export class User extends Model<User> {
+export class User extends Model {
 
     @Column(DataType.STRING)
     name!: string;
