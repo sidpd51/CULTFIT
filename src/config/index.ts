@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 
 type ServerConfigType = {
     PORT: number;
+    SALT: number;
 }
 
 type DbConfigType = {
@@ -19,6 +20,7 @@ loadEnv();
 
 export const serverConfig: ServerConfigType = {
     PORT: Number(process.env.PORT) || 3000,
+    SALT: Number(process.env.SALT) || 10
 };
 
 export const dbConfig: DbConfigType = {
