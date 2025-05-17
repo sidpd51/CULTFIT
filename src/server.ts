@@ -21,5 +21,7 @@ app.listen(PORT, async () => {
     console.log(`Server is running on http://localhost:${PORT}`);
     await sequelize.authenticate();
     // await sequelize.sync({ force: true });
+    // await Role.create({name:'user'});
+    // await Role.destroy({ where: {}, force: true });
     logger.info('Database connection has been established successfully!');
 });

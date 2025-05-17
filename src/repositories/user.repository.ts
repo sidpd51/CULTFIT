@@ -7,6 +7,7 @@ import { BadRequestError, InternalServerError, NotFoundError } from "../utils/er
 export const createUser = async (user: createUserDto) => {
     try {
         const newUser = await User.create(user);
+
         const { password, ...withNoPassword } = newUser.dataValues;
         return withNoPassword;
     } catch (error) {

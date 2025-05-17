@@ -4,7 +4,6 @@ import { logger } from "../config/logger.config";
 import { createUserService, signInService } from "../services/user.service";
 import { BadRequestError, InternalServerError, NotFoundError, UnauthorizedError } from "../utils/errors/app.error";
 
-
 export const signUpHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await createUserService(req.body);

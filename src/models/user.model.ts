@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import {
     AllowNull,
     BeforeCreate,
+    BelongsToMany,
     Column,
     CreatedAt,
     DataType,
@@ -14,6 +15,9 @@ import {
     UpdatedAt
 } from 'sequelize-typescript';
 import { serverConfig } from '../config';
+import { UserRole } from './userrole.model';
+import { Role } from './role.model';
+import { BelongsToManyAddAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyHasAssociationMixin, BelongsToManySetAssociationsMixin } from 'sequelize';
 
 @Table({
     tableName: 'users',
@@ -68,6 +72,15 @@ export class User extends Model {
     @DeletedAt
     @Column({ field: 'deleted_at' })
     deletedAt!: Date;
+
+    @BelongsToMany(() => Role, () => UserRole)
+    roles!: Role[];
+
+    // 🔁 Mixins for User association
+    public addRole!: BelongsToManyAddAssociationMixin<Role, number>;
+    public getRoles!: BelongsToManyGetAssociationsMixin<Role>;
+    public setRoles!: BelongsToManySetAssociationsMixin<Role, number>;
+    public hasRole!: BelongsToManyHasAssociationMixin<Role, number>;
 
     @BeforeCreate
     static async hashPassword(user: User) {
