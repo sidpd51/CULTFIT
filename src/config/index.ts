@@ -26,8 +26,8 @@ export const serverConfig: ServerConfigType = {
 };
 
 export const dbConfig: DbConfigType = {
-    HOST: process.env.HOST || 'localhost',
-    USERNAME: process.env.USERNAME || 'root',
-    PASSWORD: process.env.PASSWORD || 'root@123',
-    DATABASE: process.env.DATABASE || 'curefit_dev',
+    HOST: process.env.DB_HOST || 'localhost',
+    USERNAME: process.env.DB_USER || 'root',
+    PASSWORD: process.env.DB_PASSWORD || 'root@123',
+    DATABASE: process.env.DB_DATABASE || 'curefit_dev',
 }
