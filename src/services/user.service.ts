@@ -1,5 +1,5 @@
 import { createUserDto, signInDto } from "../dto/user.dto";
-import { createUser, getUserByEmail } from "../repositories/user.repository";
+import { createUser, getUserByEmail, isAdmin } from "../repositories/user.repository";
 import bcrypt from 'bcrypt';
 import { InternalServerError, UnauthorizedError } from "../utils/errors/app.error";
 import jwt, { JsonWebTokenError } from 'jsonwebtoken';
@@ -59,5 +59,16 @@ export const verifyToken = async (token: string | undefined) => {
         if (error instanceof JsonWebTokenError) {
             throw new UnauthorizedError(error.message);
         }
+    }
+}
+
+export const isAdminService = async (email: string) => {
+    try {
+        if (!email) {
+            throw new InternalServerError("Something went wrong while getting user");
+        }
+        return await isAdmin(email);
+    } catch (error) {
+        throw error;
     }
 }
