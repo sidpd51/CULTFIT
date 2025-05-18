@@ -6,10 +6,8 @@ import { attachCorrelationIdMiddleware } from './middlewares/correlation.middlew
 import { appErrorHandler } from './middlewares/error.middleware';
 import v1Router from './routers/v1/index.router';
 
-
 const app = express();
 app.use(express.json());
-
 
 const PORT: number = serverConfig.PORT;
 
@@ -23,5 +21,6 @@ app.listen(PORT, async () => {
     // await sequelize.sync({ force: true });
     // await Role.create({name:'user'});
     // await User.destroy({ where: {}, force: true });
+    await sequelize.sync({ alter: true });
     logger.info('Database connection has been established successfully!');
 });
