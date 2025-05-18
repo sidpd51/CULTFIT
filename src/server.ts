@@ -22,6 +22,6 @@ app.listen(PORT, async () => {
     await sequelize.authenticate();
     // await sequelize.sync({ force: true });
     // await Role.create({name:'user'});
-    // await Role.destroy({ where: {}, force: true });
+    // await User.destroy({ where: {}, force: true });
     logger.info('Database connection has been established successfully!');
 });

@@ -7,6 +7,7 @@ import { BadRequestError, InternalServerError, NotFoundError, UnauthorizedError 
 export const signUpHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await createUserService(req.body);
+        logger.info(`Successfully created user with name: ${user.name}.`);
         res.status(StatusCodes.CREATED).json({
             message: "User created successfully",
             success: true,
@@ -37,6 +38,7 @@ export const signInHandler = async (req: Request, res: Response, next: NextFunct
     try {
         const body = req.body;
         const token = await signInService(body);
+        logger.info(`Successfully logged in!`);
         res.status(StatusCodes.CREATED).json({
             message: "Token created successfully",
             success: true,
@@ -61,5 +63,5 @@ export const signInHandler = async (req: Request, res: Response, next: NextFunct
             });
         }
     }
-}   
+}
 
