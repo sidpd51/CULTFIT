@@ -2,7 +2,7 @@
 import { UniqueConstraintError, ValidationError } from "sequelize";
 import { Center } from "../models/center.model";
 import { BadRequestError, InternalServerError } from "../utils/errors/app.error";
-import { createCenterDto } from "../dto/center.dto";
+import { createCenterDto, udpateCenterDto } from "../dto/center.dto";
 
 export const createCenter = async (center: createCenterDto) => {
     try {
@@ -17,5 +17,22 @@ export const createCenter = async (center: createCenterDto) => {
             throw new BadRequestError(messages.join(", "));
         }
         throw new InternalServerError("Error creating center");
+    }
+}
+
+export const updateCenter = async (centerId: number, payload: udpateCenterDto) => {
+    try {
+        const updatedCenter = await Center.update(payload, {
+            where: {
+                id: centerId
+            }
+        });
+        return updatedCenter;
+    } catch (error) {
+        if (error instanceof ValidationError) {
+            const messages = error.errors.map((err) => err.message.split('.')[1]);
+            throw new BadRequestError(messages.join(", "));
+        }
+        throw new InternalServerError("Something went wrong while updating center");
     }
 }
