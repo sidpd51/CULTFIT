@@ -22,3 +22,21 @@ export const createHoliday = async (holiday: createHolidayDto) => {
         throw new InternalServerError("Error creating center holiday");
     }
 }
+
+export const destroyHoliday = async (holidayId: number) => {
+    try {
+        const deletedCenter = await Holiday.destroy({
+            where: {
+                id: holidayId
+            }
+        });
+        if (!deletedCenter) {
+            throw new NotFoundError("Center holiday not found");
+        }
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error;
+        }
+        throw new InternalServerError("Something went wrong while deleting center holiday");
+    }
+}
