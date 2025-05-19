@@ -1,4 +1,4 @@
-import { AllowNull, BelongsTo, Column, CreatedAt, DataType, DeletedAt, ForeignKey, Model, Table, UpdatedAt } from "sequelize-typescript";
+import { AllowNull, BelongsTo, Column, CreatedAt, DataType, DeletedAt, ForeignKey, Model, Table, Unique, UpdatedAt } from "sequelize-typescript";
 import { Center } from "./center.model";
 import { BelongsToGetAssociationMixin } from "sequelize";
 
@@ -15,6 +15,7 @@ export class Holiday extends Model {
     reason!: string;
 
     @AllowNull(false)
+    @Unique
     @Column
     date!: Date;
 

@@ -1,4 +1,4 @@
-import { AllowNull, Column, CreatedAt, DataType, DeletedAt, HasMany, Model, Table, UpdatedAt } from "sequelize-typescript";
+import { AllowNull, Column, CreatedAt, DataType, DeletedAt, HasMany, Model, Table, Unique, UpdatedAt } from "sequelize-typescript";
 import { Holiday } from "./holiday.model";
 import { HasManyAddAssociationMixin, HasManyGetAssociationsMixin, HasManyHasAssociationMixin } from "sequelize";
 
@@ -11,7 +11,8 @@ import { HasManyAddAssociationMixin, HasManyGetAssociationsMixin, HasManyHasAsso
 export class Center extends Model {
 
     @AllowNull(false)
-    @Column(DataType.TEXT)
+    @Unique
+    @Column(DataType.STRING(255))
     name!: string;
 
     @AllowNull(false)
