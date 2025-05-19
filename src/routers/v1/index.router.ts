@@ -11,8 +11,8 @@ const v1Router = express.Router();
 v1Router.post('/signup', validateRequestBody(createUserSchema), signUpHandler);
 v1Router.post('/signin', validateRequestBody(signInSchema), signInHandler);
 
+v1Router.use('/centers', centerRouter);
 v1Router.use(authenticateMiddleware);
 v1Router.use(isAdminMiddleware);
-v1Router.use('/centers', centerRouter);
 
 export default v1Router;

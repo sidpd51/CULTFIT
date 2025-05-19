@@ -1,7 +1,7 @@
 
 import { UniqueConstraintError, ValidationError } from "sequelize";
 import { Center } from "../models/center.model";
-import { BadRequestError, InternalServerError } from "../utils/errors/app.error";
+import { BadRequestError, InternalServerError, NotFoundError } from "../utils/errors/app.error";
 import { createCenterDto, udpateCenterDto } from "../dto/center.dto";
 
 export const createCenter = async (center: createCenterDto) => {
@@ -34,5 +34,24 @@ export const updateCenter = async (centerId: number, payload: udpateCenterDto) =
             throw new BadRequestError(messages.join(", "));
         }
         throw new InternalServerError("Something went wrong while updating center");
+    }
+}
+
+export const destroyCenter = async (centerId: number) => {
+    try {
+
+        const deletedCenter = await Center.destroy({
+            where: {
+                id: centerId
+            }
+        });
+        if (!deletedCenter) {
+            throw new NotFoundError("Center not found");
+        }
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error;
+        }
+        throw new InternalServerError("Something went wrong while deleting center");
     }
 }
