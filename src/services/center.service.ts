@@ -1,5 +1,5 @@
 import { createCenterDto, udpateCenterDto } from "../dto/center.dto";
-import { createCenter, destroyCenter, updateCenter } from "../repositories/center.repository";
+import { createCenter, destroyCenter, getCenterById, updateCenter } from "../repositories/center.repository";
 
 export const createCenterService = async (user: createCenterDto) => {
     try {
@@ -22,6 +22,15 @@ export const updateCenterService = async (centerId: number, payload: udpateCente
 export const destroyCenterService = async (centerId: number) => {
     try {
         await destroyCenter(centerId);
+    } catch (error) {
+        throw error
+    }
+}
+
+export const getCenterByIdService = async (centerId: number) => {
+    try {
+        const center = await getCenterById(centerId);
+        return center;
     } catch (error) {
         throw error
     }

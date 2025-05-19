@@ -55,3 +55,18 @@ export const destroyCenter = async (centerId: number) => {
         throw new InternalServerError("Something went wrong while deleting center");
     }
 }
+
+export const getCenterById = async (centerId: number) => {
+    try {
+        const center = await Center.findByPk(centerId);
+        if (!center) {
+            throw new BadRequestError(`No center with centerId:${centerId} exist`)
+        }
+        return center;
+    } catch (error) {
+        if (error instanceof BadRequestError) {
+            throw error;
+        }
+        throw new InternalServerError("Something went wrong while getting center");
+    }
+}

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { createCenterService, destroyCenterService, updateCenterService } from "../services/center.service";
+import { createCenterService, destroyCenterService, getCenterByIdService, updateCenterService } from "../services/center.service";
 import { logger } from "../config/logger.config";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, InternalServerError, NotFoundError } from "../utils/errors/app.error";
@@ -97,6 +97,39 @@ export const destroyCenterHandler = async (req: Request, res: Response, next: Ne
         }
         if (error instanceof NotFoundError) {
             logger.error(`Error in destroyCenterHandler, ${error.message}`);
+            res.status(error.statusCode).json({
+                message: error.message,
+                success: false,
+                data: {}
+            });
+        }
+    }
+}
+
+export const getCenterByIdHandler = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const centerId: number = Number(req.params.id);
+        if (!centerId) {
+            throw new BadRequestError("Center id should be a number");
+        }
+        const center = await getCenterByIdService(centerId);
+        logger.info("Successfully got the center");
+        res.status(StatusCodes.OK).json({
+            message: "Successfully got the center",
+            success: true,
+            data: center
+        });
+    } catch (error) {
+        if (error instanceof InternalServerError) {
+            logger.error(`Error in getCentersByIdHandler, ${error.message}`);
+            res.status(error.statusCode).json({
+                message: error.message,
+                success: false,
+                data: {}
+            });
+        }
+        if (error instanceof BadRequestError) {
+            logger.error(`Error in getCentersByIdHandler, ${error.message}`);
             res.status(error.statusCode).json({
                 message: error.message,
                 success: false,
