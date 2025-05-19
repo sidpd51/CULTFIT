@@ -1,12 +1,21 @@
-import { AllowNull, BelongsTo, Column, CreatedAt, DataType, DeletedAt, ForeignKey, Model, Table, Unique, UpdatedAt } from "sequelize-typescript";
-import { Center } from "./center.model";
 import { BelongsToGetAssociationMixin } from "sequelize";
+import { AllowNull, BelongsTo, Column, CreatedAt, DataType, DeletedAt, ForeignKey, Model, Table, UpdatedAt } from "sequelize-typescript";
+import { Center } from "./center.model";
+
+
 
 @Table({
     tableName: 'holidays',
     timestamps: true,
     paranoid: true,
     underscored: true,
+    indexes: [
+        {
+            name: "unique_holiday_per_center_per_day",
+            unique: true,
+            fields: ["center_id", "date"],
+        }
+    ]
 })
 
 export class Holiday extends Model {
@@ -15,9 +24,8 @@ export class Holiday extends Model {
     reason!: string;
 
     @AllowNull(false)
-    @Unique
-    @Column
-    date!: Date;
+    @Column(DataType.DATEONLY)
+    date!: string;
 
     @CreatedAt
     @Column({ field: 'created_at' })
