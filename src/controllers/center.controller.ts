@@ -3,6 +3,7 @@ import { createCenterService, destroyCenterService, getCenterByIdService, update
 import { logger } from "../config/logger.config";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, InternalServerError, NotFoundError } from "../utils/errors/app.error";
+import { getAllCenters } from "../repositories/center.repository";
 
 export const createCenterHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -36,7 +37,7 @@ export const createCenterHandler = async (req: Request, res: Response, next: Nex
 export const updateCenterHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const centerId: number = Number(req.params.id);
-        if(!centerId){
+        if (!centerId) {
             throw new BadRequestError("Center id should be a number");
         }
         const center = await updateCenterService(centerId, req.body);
@@ -138,3 +139,33 @@ export const getCenterByIdHandler = async (req: Request, res: Response, next: Ne
         }
     }
 }
+
+export const getAllCentersHandler = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const centers = await getAllCenters();
+        logger.info("Successfully got all the centers");
+        res.status(StatusCodes.OK).json({
+            message: "Successfully got all the centers",
+            success: true,
+            data: centers
+        });
+    } catch (error) {
+        if (error instanceof InternalServerError) {
+            logger.error(`Error in getAllCentersHandler, ${error.message}`);
+            res.status(error.statusCode).json({
+                message: error.message,
+                success: false,
+                data: {}
+            });
+        }
+        if (error instanceof NotFoundError) {
+            logger.error(`Error in getAllCentersHandler, ${error.message}`);
+            res.status(error.statusCode).json({
+                message: error.message,
+                success: false,
+                data: {}
+            });
+        }
+    }
+}
+

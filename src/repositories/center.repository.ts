@@ -70,3 +70,18 @@ export const getCenterById = async (centerId: number) => {
         throw new InternalServerError("Something went wrong while getting center");
     }
 }
+
+export const getAllCenters = async () => {
+    try {
+        const centers = await Center.findAll();
+        if (centers.length === 0) {
+            throw new NotFoundError("Centers not found.");
+        }
+        return centers;
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error
+        }
+        throw new InternalServerError("Something went wrong while getting centers");
+    }
+}
