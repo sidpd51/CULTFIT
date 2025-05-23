@@ -1,0 +1,18 @@
+import { ValidationError } from "sequelize";
+import { classScheduleType } from "../dto/classSchedule.dto";
+import { ClassSchedule } from "../models/classSchedule.model";
+import { BadRequestError, InternalServerError } from "../utils/errors/app.error";
+
+
+export const createClassSchedule = async (payload: classScheduleType) => {
+    try {
+        const classSchedule = await ClassSchedule.create(payload);
+        return classSchedule;
+    } catch (error) {
+        if (error instanceof ValidationError) {
+            const messages = error.errors.map((err) => err.message.split('.')[1]);
+            throw new BadRequestError(messages.join(", "));
+        }
+        throw new InternalServerError("Error creating classSchedule");
+    }
+}
