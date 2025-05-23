@@ -36,6 +36,33 @@ export class ClassSchedule extends Model {
     })
     isRecurring!: boolean;
 
+    @Column({
+        type: DataType.DATEONLY,
+        defaultValue: () => {
+            const today = new Date();
+            return today.toISOString().split('T')[0];
+        }
+    })
+    startDate!: Date;
+
+    @Column({
+        type: DataType.DATEONLY,
+        defaultValue: () => {
+            const today = new Date();
+            return today.toISOString().split('T')[0];
+        }
+    })
+    endDate!: Date;
+
+    @Column({
+        type: DataType.TIME,
+        allowNull: false
+    })
+    startTime!: string;
+
+    @Column
+    durationMinutes!: number;
+
     /**
      * Many-to-many association: ClassSchedule <-> Day
      * Represents on which days this class is scheduled.
