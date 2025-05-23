@@ -1,6 +1,6 @@
-import { AllowNull, Column, ForeignKey, Model, Table } from "sequelize-typescript";
-import { Day } from "./day.model";
+import { Column, ForeignKey, Model, Table } from "sequelize-typescript";
 import { ClassSchedule } from "./classSchedule.model";
+import { Day } from "./day.model";
 
 /**
  * ClassScheduleDay is a join table for the many-to-many relationship
@@ -14,13 +14,11 @@ import { ClassSchedule } from "./classSchedule.model";
 )
 export class ClassScheduleDay extends Model {
     /** Foreign key: Day ID */
-    @AllowNull(false)
     @ForeignKey(() => Day)
     @Column
     dayId!: number;
 
     /** Foreign key: ClassSchedule ID */
-    @AllowNull(false)
     @ForeignKey(() => ClassSchedule)
     @Column
     classScheduleId!: number;
