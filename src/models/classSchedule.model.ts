@@ -39,21 +39,13 @@ export class ClassSchedule extends Model {
 
     @Column({
         type: DataType.DATEONLY,
-        allowNull: false,
-        defaultValue: () => {
-            const today = new Date();
-            return today.toISOString().split('T')[0];
-        }
+        allowNull: false
     })
     startDate!: Date;
 
     @Column({
         type: DataType.DATEONLY,
-        allowNull: false,
-        defaultValue: () => {
-            const today = new Date();
-            return today.toISOString().split('T')[0];
-        }
+        allowNull: false
     })
     endDate!: Date;
 
@@ -63,6 +55,7 @@ export class ClassSchedule extends Model {
     })
     startTime!: string;
 
+    @AllowNull(false)
     @Default(50)
     @Column
     durationMinutes!: number;
