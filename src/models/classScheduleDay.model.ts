@@ -1,4 +1,4 @@
-import { Column, ForeignKey, Model, Table } from "sequelize-typescript";
+import { AllowNull, Column, ForeignKey, Model, Table } from "sequelize-typescript";
 import { Day } from "./day.model";
 import { ClassSchedule } from "./classSchedule.model";
 
@@ -14,11 +14,13 @@ import { ClassSchedule } from "./classSchedule.model";
 )
 export class ClassScheduleDay extends Model {
     /** Foreign key: Day ID */
+    @AllowNull(false)
     @ForeignKey(() => Day)
     @Column
     dayId!: number;
 
     /** Foreign key: ClassSchedule ID */
+    @AllowNull(false)
     @ForeignKey(() => ClassSchedule)
     @Column
     classScheduleId!: number;

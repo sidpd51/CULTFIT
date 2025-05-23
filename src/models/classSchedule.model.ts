@@ -1,4 +1,4 @@
-import { AllowNull, BelongsTo, BelongsToMany, Column, CreatedAt, DataType, DeletedAt, ForeignKey, Model, Table, UpdatedAt } from "sequelize-typescript";
+import { AllowNull, BelongsTo, BelongsToMany, Column, CreatedAt, DataType, Default, DeletedAt, ForeignKey, Model, Table, UpdatedAt } from "sequelize-typescript";
 import { Center } from "./center.model";
 import { ClassType } from "./classType.model";
 import { Day } from "./day.model";
@@ -32,12 +32,14 @@ export class ClassSchedule extends Model {
     /** Whether the class schedule is recurring */
     @Column({
         type: DataType.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
+        allowNull: false,
     })
     isRecurring!: boolean;
 
     @Column({
         type: DataType.DATEONLY,
+        allowNull: false,
         defaultValue: () => {
             const today = new Date();
             return today.toISOString().split('T')[0];
@@ -47,6 +49,7 @@ export class ClassSchedule extends Model {
 
     @Column({
         type: DataType.DATEONLY,
+        allowNull: false,
         defaultValue: () => {
             const today = new Date();
             return today.toISOString().split('T')[0];
@@ -60,6 +63,7 @@ export class ClassSchedule extends Model {
     })
     startTime!: string;
 
+    @Default(50)
     @Column
     durationMinutes!: number;
 
