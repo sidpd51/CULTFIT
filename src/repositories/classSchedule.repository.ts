@@ -16,3 +16,16 @@ export const createClassSchedule = async (payload: classScheduleType) => {
         throw new InternalServerError("Error creating classSchedule");
     }
 }
+
+export const fetchCenterClassSchedules = async (centerId: number) => {
+    try {
+        const classSchedules = await ClassSchedule.findAll({
+            where: {
+                centerId: centerId
+            }
+        });
+        return classSchedules;
+    } catch (error) {
+        console.log(error)
+    }
+}

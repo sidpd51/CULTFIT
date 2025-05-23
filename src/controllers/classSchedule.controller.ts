@@ -3,6 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { createClassSchedule } from "../repositories/classSchedule.repository";
 import { BadRequestError, InternalServerError } from "../utils/errors/app.error";
 import { logger } from "../config/logger.config";
+import { fetchCenterClassSchedulesService } from "../services/classSchedule.service";
 
 export const createClassScheduleHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -28,5 +29,22 @@ export const createClassScheduleHandler = async (req: Request, res: Response, ne
                 data: {}
             });
         };
+    }
+}
+
+export const fetchCenterClassSchedulesHandler = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const centerId: number = Number(req.params.id);
+        if (!centerId) {
+            throw new BadRequestError("Center id should be a number");
+        }
+        const classSchedules = await fetchCenterClassSchedulesService(centerId);
+        res.status(StatusCodes.OK).json({
+            message: `Successfully got class Schedules associated with the center id: ${centerId}`,
+            success: true,
+            data: classSchedules
+        });
+    } catch (error) {
+        
     }
 }
