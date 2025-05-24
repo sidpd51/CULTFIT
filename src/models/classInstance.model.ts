@@ -1,8 +1,13 @@
 import { addMinutes } from "date-fns";
-import { AllowNull, BeforeCreate, BelongsTo, Column, CreatedAt, DataType, Default, DeletedAt, ForeignKey, Model, Table, UpdatedAt } from "sequelize-typescript";
+import { AllowNull, BeforeCreate, BeforeValidate, BelongsTo, Column, CreatedAt, DataType, Default, DeletedAt, ForeignKey, Model, Table, UpdatedAt } from "sequelize-typescript";
 import { Center } from "./center.model";
 import { ClassSchedule } from "./classSchedule.model";
 import { ClassType } from "./classType.model";
+
+export enum ClassInstanceStatus {
+    SCHEDULED = 'SCHEDULED',
+    CANCELLED = 'CANCELLED'
+}
 
 /**
  * ClassInstance model represents a single occurrence of a scheduled class.
@@ -58,11 +63,11 @@ export class ClassInstance extends Model {
 
     /** Status of the class instance: SCHEDULED or CANCELLED */
     @AllowNull(false)
-    @Default('SCHEDULED')
+    @Default(ClassInstanceStatus.SCHEDULED)
     @Column({
-        type: DataType.ENUM('SCHEDULED', 'CANCELLED')
+        type: DataType.ENUM(...Object.values(ClassInstanceStatus))
     })
-    status!: 'SCHEDULED' | 'CANCELLED';
+    status!: ClassInstanceStatus;
 
     /** Maximum number of participants allowed */
     @AllowNull(false)
@@ -102,6 +107,7 @@ export class ClassInstance extends Model {
      * based on startTime and a default duration (50 minutes).
      */
     @BeforeCreate
+    @BeforeValidate
     static setEndTime(instance: ClassInstance) {
         if (instance.startTime) {
             const [hours, minutes] = instance.startTime.split(':').map(Number);

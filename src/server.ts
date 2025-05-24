@@ -18,7 +18,7 @@ app.use(appErrorHandler);
 app.listen(PORT, async () => {
     console.log(`Server is running on http://localhost:${PORT}`);
     await sequelize.authenticate();
-    // await sequelize.sync({ force: true });
+    // await sequelize.sync({ alter: true });
     // await Role.create({name:'user'});
     // await User.destroy({ where: {}, force: true });
     // await sequelize.sync({ alter: true });
