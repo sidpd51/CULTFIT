@@ -26,6 +26,6 @@ export const fetchCenterClassSchedules = async (centerId: number) => {
         });
         return classSchedules;
     } catch (error) {
-        console.log(error)
+        throw new InternalServerError("Something went wrong while getting classSchedules");
     }
 }

@@ -8,13 +8,16 @@ import { fetchCenterClassSchedulesService } from "../services/classSchedule.serv
 export const createClassScheduleHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const result = await createClassSchedule(req.body);
+        logger.info("Class Scheduled successfully through createClassScheduleHandler");
 
         res.status(StatusCodes.OK).json({
+            message: `Class Scheduled successfully for center id: ${req.body.centerId}`,
+            success: true,
             data: result
         });
     } catch (error) {
         if (error instanceof BadRequestError) {
-            logger.error(`Error in signUpHandler, ${error.message}`);
+            logger.error(`Error in createClassScheduleHandler, ${error.message}`);
             res.status(error.statusCode).json({
                 message: error.message,
                 success: false,
@@ -22,7 +25,7 @@ export const createClassScheduleHandler = async (req: Request, res: Response, ne
             });
         };
         if (error instanceof InternalServerError) {
-            logger.error(`Error in signUpHandler, ${error.message}`);
+            logger.error(`Error in createClassScheduleHandler, ${error.message}`);
             res.status(error.statusCode).json({
                 message: error.message,
                 success: false,
@@ -39,12 +42,28 @@ export const fetchCenterClassSchedulesHandler = async (req: Request, res: Respon
             throw new BadRequestError("Center id should be a number");
         }
         const classSchedules = await fetchCenterClassSchedulesService(centerId);
+        logger.info(`Successfully got class Schedules associated with the center id: ${centerId} through fetchCenterClassSchedulesHandler`);
         res.status(StatusCodes.OK).json({
             message: `Successfully got class Schedules associated with the center id: ${centerId}`,
             success: true,
             data: classSchedules
         });
     } catch (error) {
-        
+        if (error instanceof BadRequestError) {
+            logger.error(`Error in fetchCenterClassSchedulesHandler, ${error.message}`);
+            res.status(error.statusCode).json({
+                message: error.message,
+                success: false,
+                data: {}
+            });
+        }
+        if (error instanceof InternalServerError) {
+            logger.error(`Error in fetchCenterClassSchedulesHandler, ${error.message}`);
+            res.status(error.statusCode).json({
+                message: error.message,
+                success: false,
+                data: {}
+            });
+        }
     }
 }
