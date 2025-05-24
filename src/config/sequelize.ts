@@ -9,6 +9,7 @@ import { ClassSchedule } from "../models/classSchedule.model";
 import { ClassScheduleDay } from "../models/classScheduleDay.model";
 import { Day } from "../models/day.model";
 import { ClassType } from "../models/classType.model";
+import { ClassInstance } from "../models/classInstance.model";
 
 const sequelize = new Sequelize({
     dialect: 'mysql',
@@ -16,7 +17,7 @@ const sequelize = new Sequelize({
     username: dbConfig.USERNAME,
     password: dbConfig.PASSWORD,
     database: dbConfig.DATABASE,
-    models: [User, Role, UserRole, Center, Holiday, ClassSchedule, ClassScheduleDay, Day, ClassType],
+    models: [User, Role, UserRole, Center, Holiday, ClassSchedule, ClassScheduleDay, Day, ClassType, ClassInstance],
     logging: false
 });
 
