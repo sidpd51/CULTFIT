@@ -2,6 +2,7 @@ import { AllowNull, Column, CreatedAt, DataType, DeletedAt, HasMany, Model, Tabl
 import { Holiday } from "./holiday.model";
 import { HasManyAddAssociationMixin, HasManyGetAssociationsMixin, HasManyHasAssociationMixin } from "sequelize";
 import { ClassSchedule } from "./classSchedule.model";
+import { ClassInstance } from "./classInstance.model";
 
 /**
  * Center model represents a fitness center location.
@@ -60,6 +61,12 @@ export class Center extends Model {
         onUpdate: 'RESTRICT'
     })
     classSchedules!: ClassSchedule[];
+
+    @HasMany(() => ClassInstance, {
+        onDelete: 'CASCADE',
+        onUpdate: 'RESTRICT'
+    })
+    classInstances!: ClassInstance[];
 
     // 🔁 Mixins for association (Center -> ClassSchedules)
     /** Get all class schedules for this center */

@@ -1,5 +1,6 @@
 import { AllowNull, Column, CreatedAt, DataType, DeletedAt, HasMany, Model, Table, Unique, UpdatedAt } from "sequelize-typescript";
 import { ClassSchedule } from "./classSchedule.model";
+import { ClassInstance } from "./classInstance.model";
 
 /**
  * ClassType model represents a type of fitness class (e.g., Yoga, HIIT).
@@ -22,16 +23,6 @@ export class ClassType extends Model {
     @Column(DataType.TEXT)
     Description!: string;
 
-    /**
-     * Association: ClassType has many ClassSchedules.
-     * On class type deletion, class schedules are also deleted (CASCADE).
-     */
-    @HasMany(() => ClassSchedule, {
-        onDelete: 'CASCADE',
-        onUpdate: 'RESTRICT'
-    })
-    classSchedules!: ClassSchedule[];
-
     /** Timestamp when the class type was created */
     @CreatedAt
     @Column({ field: 'created_at' })
@@ -46,4 +37,20 @@ export class ClassType extends Model {
     @DeletedAt
     @Column({ field: 'deleted_at' })
     deletedAt!: Date;
+
+    /**
+     * Association: ClassType has many ClassSchedules.
+     * On class type deletion, class schedules are also deleted (CASCADE).
+     */
+    @HasMany(() => ClassSchedule, {
+        onDelete: 'CASCADE',
+        onUpdate: 'RESTRICT'
+    })
+    classSchedules!: ClassSchedule[];
+
+    @HasMany(() => ClassInstance, {
+        onDelete: 'CASCADE',
+        onUpdate: 'RESTRICT'
+    })
+    classInstances!: ClassInstance[];
 }

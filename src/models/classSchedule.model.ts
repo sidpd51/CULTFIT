@@ -1,9 +1,10 @@
-import { AllowNull, BelongsTo, BelongsToMany, Column, CreatedAt, DataType, Default, DeletedAt, ForeignKey, Model, Table, UpdatedAt } from "sequelize-typescript";
+import { AllowNull, BelongsTo, BelongsToMany, Column, CreatedAt, DataType, Default, DeletedAt, ForeignKey, HasMany, Model, Table, UpdatedAt } from "sequelize-typescript";
 import { Center } from "./center.model";
 import { ClassType } from "./classType.model";
 import { Day } from "./day.model";
 import { ClassScheduleDay } from "./classScheduleDay.model";
 import { BelongsToGetAssociationMixin, BelongsToManyAddAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyHasAssociationMixin, BelongsToManySetAssociationsMixin } from "sequelize";
+import { ClassInstance } from "./classInstance.model";
 
 /**
  * ClassSchedule model represents a scheduled class at a center.
@@ -74,6 +75,12 @@ export class ClassSchedule extends Model {
     /** Association: ClassSchedule belongs to a ClassType */
     @BelongsTo(() => ClassType)
     classType!: ClassType;
+
+    @HasMany(() => ClassInstance, {
+        onDelete: 'CASCADE',
+        onUpdate: 'RESTRICT'
+    })
+    classInstances!: ClassInstance[];
 
     /** Timestamp when the schedule was created */
     @CreatedAt
