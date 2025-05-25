@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import ioredis from 'ioredis';
 
 type ServerConfigType = {
     PORT: number;
@@ -31,3 +32,10 @@ export const dbConfig: DbConfigType = {
     PASSWORD: process.env.DB_PASSWORD || 'root@123',
     DATABASE: process.env.DB_DATABASE || 'curefit_dev',
 }
+
+export const redisConnection = new ioredis({
+    host: "127.0.0.1",
+    port: 6379,
+    password: "123456",
+    maxRetriesPerRequest: null,
+})
