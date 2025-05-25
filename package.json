@@ -5,7 +5,8 @@
   "scripts": {
     "start": "ts-node dist/server.ts",
     "build": "tsc",
-    "dev": "nodemon src/server.ts"
+    "dev": "nodemon src/server.ts",
+    "worker": "nodemon src/jobs/workers/class-instance.ts"
   },
   "keywords": [],
   "author": "",

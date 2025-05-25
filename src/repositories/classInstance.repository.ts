@@ -7,7 +7,6 @@ export const createClassInstance = async (payload: ClassInstanceDto) => {
         const classInstance = await ClassInstance.create(payload);
         return classInstance;
     } catch (error) {
-        console.log(error)
         throw new InternalServerError("Something went wrong while creating class instance");
     }
 }
