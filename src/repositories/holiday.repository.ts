@@ -1,4 +1,4 @@
-import { ForeignKeyConstraintError, UniqueConstraintError, ValidationError } from "sequelize";
+import { ForeignKeyConstraintError, Op, UniqueConstraintError, ValidationError } from "sequelize";
 import { createHolidayDto } from "../dto/holiday.dto";
 import { Holiday } from "../models/holiday.model";
 import { BadRequestError, InternalServerError, NotFoundError } from "../utils/errors/app.error";
@@ -38,5 +38,22 @@ export const destroyHoliday = async (holidayId: number) => {
             throw error;
         }
         throw new InternalServerError("Something went wrong while deleting center holiday");
+    }
+}
+
+export const fetchHolidays = async (centerId: number, currentDate: Date) => {
+    try {
+        const holidays = await Holiday.findAll({
+            where: {
+                date: {
+                    [Op.gt]: currentDate
+                },
+                centerId
+            }
+        });
+        return holidays;
+
+    } catch (error) {
+        throw new InternalServerError("Something went wrong while fetching holiday");
     }
 }
