@@ -1,10 +1,10 @@
 import { ValidationError } from "sequelize";
-import { classScheduleType } from "../dto/classSchedule.dto";
 import { ClassSchedule } from "../models/classSchedule.model";
 import { BadRequestError, InternalServerError } from "../utils/errors/app.error";
+import { classScheduleDto } from "../dto/classSchedule.dto";
 
 
-export const createClassSchedule = async (payload: classScheduleType) => {
+export const createClassSchedule = async (payload: classScheduleDto) => {
     try {
         const classSchedule = await ClassSchedule.create(payload);
         return classSchedule;

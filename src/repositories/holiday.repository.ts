@@ -41,7 +41,7 @@ export const destroyHoliday = async (holidayId: number) => {
     }
 }
 
-export const fetchHolidays = async (centerId: number, currentDate: Date) => {
+export const fetchHolidayDates = async (centerId: number, currentDate: Date) => {
     try {
         const holidays = await Holiday.findAll({
             where: {
@@ -49,9 +49,11 @@ export const fetchHolidays = async (centerId: number, currentDate: Date) => {
                     [Op.gt]: currentDate
                 },
                 centerId
-            }
+            },
+            attributes: ['date']
         });
-        return holidays;
+        const holidayDates = holidays.map(e=> new Date(e.date).toISOString().split('T')[0]);
+        return holidayDates;
 
     } catch (error) {
         throw new InternalServerError("Something went wrong while fetching holiday");

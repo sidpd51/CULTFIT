@@ -4,7 +4,7 @@ export type ClassInstanceDto = {
     classScheduleId: number;
     centerId: number;
     classTypeId: number;
-    date: string;
+    date: Date;
     startTime: string;
     status: ClassInstanceStatus;
 }

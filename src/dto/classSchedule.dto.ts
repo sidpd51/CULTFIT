@@ -1,9 +1,9 @@
-export type classScheduleType = {
+export type classScheduleDto = {
     centerId: number;
     classTypeId: number;
-    isRecurring?: boolean;
-    startDate?: string;
-    endDate?: string;
-    startTime?: string;
+    isRecurring: boolean;
+    startDate: string;
+    endDate: string;
+    startTime: string;
     days: number[]
 }
